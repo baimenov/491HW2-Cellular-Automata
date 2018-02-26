@@ -263,6 +263,52 @@ Cell.prototype.draw = function(ctx) {
 	Entity.prototype.draw.call(this, ctx);
 }
 
+var makeCube = function(n) {
+	if (n === '' || n < 1 || n > 100) {
+		n = 40;
+	}
+	var cube = [];
+	for (var i = 0; i < n; i++) {
+		cube.push(new Array(n));
+	}
+	for (var i = 0; i < cube.length; i++) {
+		for (var j = 0; j < n; j++) {
+			cube[i][j] = 1;
+		}
+	}
+	return cube;
+}
+
+//16x55
+var gpa = function() {
+	var result = ['11110100101000010000001110111101111011100111101111',
+				  '10000100101000010000010000100101000010010011000110',
+				  '10000100101000010000010000100101000010010011000110',
+				  '11110100101000010000010000111101111010010011000110',
+				  '10000100101000010000010000110001000010010011000110',
+				  '10000100101000010000010000101001000010010011000110',
+				  '10000111101111011110001110100101111011100111100110',
+				  '00000000000000000000000000000000000000000000000000',
+				  '00000000000000000000000000000000000000000000000000',
+				  '11110100001111011110011101111000000000000000000000',
+				  '10010100001000010010100001000000000000000000000000',
+				  '10010100001000010010100001000000000000000000000000',
+				  '11110100001111011110011001111000000000000000000000',
+				  '10000100001000010010000101000000000000000000000000',
+				  '10000100001000010010000101000000000000000000000000',
+				  '10000111101111010010111001111000000000000000000000'];
+
+	var arr = new Array(result.length);
+	for (var i = 0; i < result.length; i++) {
+		arr[i] = new Array(result[i].length);
+	}
+	for (var i = 0; i < result.length; i++) {
+		for (var j = 0; j < result[i].length; j++) {
+			arr[i][j] = result[i].charAt(j) === '1' ? 1 : 0;
+		}
+	}
+	return arr;
+}
 
 var AM = new AssetManager();
 AM.queueDownload("./img/ezPepe.jpg");
@@ -274,28 +320,37 @@ AM.downloadAll(function() {
 	var gosperButton = document.getElementById("gosperButton");
 	var randomButton = document.getElementById("randomButton");
 	var spaceshipButton = document.getElementById("spaceshipButton");
+	var cubeButton = document.getElementById("cubeButton");
+	var lennyButton = document.getElementById("gpaButton");
 
 	var sps = makeSpaceShip();
+
+	var pls = gpa();
 
     var ctx = canvas.getContext('2d');
 
     var gameEngine = new GameEngine();
     var grid = new Grid(gameEngine, null);
+
     startButton.addEventListener("click", function () {
     	grid.loaded = true;
 	}, false);
+
 	clearButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.clear();
 	}, false);
+
 	gosperButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.makeGosper();
 	}, false);
+
 	randomButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.randomize();
 	}, false);
+
 	spaceshipButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.clear();
@@ -306,7 +361,24 @@ AM.downloadAll(function() {
 		grid.placeSetup(sps, 80, 80);
 	}, false);
 
+	cubeButton.addEventListener("click", function() {
+		grid.loaded = false;
+		grid.clear();
+		var cub = makeCube(document.getElementById("cubeInput").value);
+		var cubeSize = document.getElementById("cubeInput").value;
+		if (cubeSize < 1 || cubeSize > 100 || cubeSize === '') {
+			cubeSize = 40;
+			document.getElementById("cubeInput").value = '40';
+		}
+		var starting = Math.floor((100 - cubeSize) / 2);
+		grid.placeSetup(cub, starting, starting);
+	}, false);
 
+	lennyButton.addEventListener("click", function() {
+		grid.loaded = false;
+		grid.clear();
+		grid.placeSetup(pls, 20, 20);
+	}, false);
 
     gameEngine.addEntity(grid);
 
