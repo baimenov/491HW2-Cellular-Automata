@@ -302,7 +302,8 @@ AM.downloadAll(function() {
 		grid.placeSetup(sps, 80, 20);
 		grid.placeSetup(sps, 75, 35);
 		grid.placeSetup(sps, 70, 50);
-
+		grid.placeSetup(sps, 75, 65);
+		grid.placeSetup(sps, 80, 80);
 	}, false);
 
 
