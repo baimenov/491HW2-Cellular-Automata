@@ -78,6 +78,7 @@ GameEngine.prototype.startInput = function() {
      this.ctx.canvas.addEventListener("click", function(e) {
         that.click = getXandY(e);
      }, false);
+
 }
 
 GameEngine.prototype.addEntity = function (entity) {

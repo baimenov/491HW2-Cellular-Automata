@@ -322,6 +322,7 @@ AM.downloadAll(function() {
 	var spaceshipButton = document.getElementById("spaceshipButton");
 	var cubeButton = document.getElementById("cubeButton");
 	var lennyButton = document.getElementById("gpaButton");
+	//var pauseButton = document.getElementById("pauseButton");
 
 	var sps = makeSpaceShip();
 
@@ -333,22 +334,26 @@ AM.downloadAll(function() {
     var grid = new Grid(gameEngine, null);
 
     startButton.addEventListener("click", function () {
-    	grid.loaded = true;
+    	grid.loaded = grid.loaded ? false : true;
+    	//startButton.disabled = true;
 	}, false);
 
 	clearButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.clear();
+		startButton.disabled = false;
 	}, false);
 
 	gosperButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.makeGosper();
+		startButton.disabled = false;
 	}, false);
 
 	randomButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.randomize();
+		startButton.disabled = false;
 	}, false);
 
 	spaceshipButton.addEventListener("click", function() {
@@ -359,6 +364,7 @@ AM.downloadAll(function() {
 		grid.placeSetup(sps, 70, 50);
 		grid.placeSetup(sps, 75, 65);
 		grid.placeSetup(sps, 80, 80);
+		startButton.disabled = false;
 	}, false);
 
 	cubeButton.addEventListener("click", function() {
@@ -372,13 +378,19 @@ AM.downloadAll(function() {
 		}
 		var starting = Math.floor((100 - cubeSize) / 2);
 		grid.placeSetup(cub, starting, starting);
+		startButton.disabled = false;
 	}, false);
 
 	lennyButton.addEventListener("click", function() {
 		grid.loaded = false;
 		grid.clear();
 		grid.placeSetup(pls, 20, 20);
+		startButton.disabled = false;
 	}, false);
+
+	/*pauseButton.addEventListener("click", function() {
+		grid.loaded = grid.loaded ? false : true;
+	});*/
 
     gameEngine.addEntity(grid);
 
